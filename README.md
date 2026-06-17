@@ -7,10 +7,14 @@ specification.
 
 ## Status
 
-Foundations only. The repo scaffolding, scenario data, database schema, and a static
-PWA shell are in place. Game features (session creation, role claim, timers, maps,
-cards) are not yet implemented. See the spec's section 27 "Build Priority" for the
-roadmap.
+Build-priority step 4 (session creation) is live. A facilitator can create a
+session with `npm run session:create`, then open the facilitator URL to see a
+read-only dashboard: session title, two NPC cards, and all 20 map score tracks
+at their starting values.
+
+See [`DEPLOY.md`](./DEPLOY.md) for the end-to-end deployment guide (Supabase +
+Cloudflare Pages + GitHub Actions). See the spec's section 27 "Build Priority"
+for the full roadmap.
 
 ## Repo layout
 

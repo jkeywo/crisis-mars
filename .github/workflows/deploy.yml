@@ -1,0 +1,63 @@
+name: Deploy to Cloudflare Pages
+
+# Trigger on every push to main, and allow manual dispatch.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Minimal permissions: contents=read to check out, deployments=write for
+# Cloudflare Pages to create a deployment status.
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate scenario JSON
+        run: npm run scenario:validate
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # PUBLIC_ env vars are injected by Cloudflare Pages natively (from the
+      # project's "Environment variables" settings), but we still need them
+      # available to Vite's $env/dynamic/public mechanism during the build so
+      # the bundle includes the correct Supabase endpoint.
+      # The GHA secrets NEXT_PUBLIC_* / PUBLIC_* pattern:
+      #   - Set PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY in
+      #     Settings → Secrets → Actions on the GitHub repo.
+      #   - These are injected as env vars here and picked up by Vite.
+      - name: Build
+        run: npm run build
+        env:
+          PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
+          PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: crisis-mars
+          directory: packages/web/build
+          # Create a direct-upload deployment (no Cloudflare build step needed -
+          # we built above). The Pages project must be created via the Cloudflare
+          # dashboard first; see DEPLOY.md for setup instructions.
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,28 @@
+# Cloudflare Pages custom response headers.
+# This file is copied verbatim into packages/web/build/ by the static adapter.
+#
+# Strategy:
+#   * HTML files: no cache (always fresh from CDN), ensures SPA shell and
+#     prerendered pages never go stale on deploy.
+#   * _app/immutable/** : immutable for 1 year; filenames are content-hashed
+#     by Vite so a new build produces new URLs automatically.
+#   * service-worker.js: no cache; the browser must always fetch the latest SW.
+#   * manifest.webmanifest: short cache so PWA metadata updates quickly.
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/200.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=300
+
+/service-worker.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/_app/immutable/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/icons/*
+  Cache-Control: public, max-age=86400
