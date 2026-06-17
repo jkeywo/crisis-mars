@@ -1,0 +1,20 @@
+-- 0003_functions.sql
+-- Placeholder for SECURITY DEFINER RPCs that mutate game state without bypassing
+-- audit. Each function performs:
+--   * Authorisation check (caller is permitted)
+--   * Pre-condition validation (card is in expected state, etc.)
+--   * The state change
+--   * An audit_event or card_audit_event insert
+--
+-- Functions to add as features land:
+--   claim_role(game_session_id, role_token)
+--   restore_role(game_session_id, role_token, device_label)
+--   place_action_card(action_card_instance_id, map_id, location_id)
+--   loan_resource_card(card_instance_id, recipient_participant_id)
+--   recall_resource_card(card_instance_id)
+--   reclaim_resource_card(card_instance_id)
+--   resolve_action(action_submission_id, resolution_payload)
+--   facilitator_move_card(card_instance_id, new_holder_id, reason)
+--
+-- Keep this file present so future migrations can `create or replace` instead of
+-- `create`, simplifying iteration.
