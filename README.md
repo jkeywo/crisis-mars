@@ -69,6 +69,28 @@ npm run db:types
 npm run dev
 ```
 
+## Create a game session
+
+Session creation is a CLI operation: it requires the operator-only service-role
+key, so it cannot live in the browser. Run from the repo root with a local
+Supabase up and the scenario seeded:
+
+```bash
+npm run session:create -- --title "Friday night playtest"
+```
+
+The script generates three unguessable tokens, calls the `create_game_session`
+Postgres RPC (which stores only the SHA-256 hashes of the tokens), and prints
+three URLs:
+
+- **Facilitator URL** - give to facilitators only. Opens the read-only
+  dashboard at `/facilitator/<token>`.
+- **Join URL** - hand to players (step 6 wires up the claim flow).
+- **Observer URL** - optional read-only view (later step).
+
+These URLs are shown ONCE. Save them; they cannot be retrieved. Re-run the
+script to create a new session.
+
 ## Scripts
 
 | Script | What it does |
@@ -79,9 +101,11 @@ npm run dev
 | `npm run lint` | ESLint per package. |
 | `npm run format` | Prettier write across the repo. |
 | `npm run scenario:validate` | AJV-validate `scenario/crisis-mars-v1.json` against `scenario/schema.json`. |
+| `npm run icons:generate` | Regenerate the placeholder PWA icons under `packages/web/static/icons/`. |
 | `npm run db:start` / `db:stop` / `db:reset` | Supabase local stack. |
 | `npm run db:types` | Regenerate `packages/shared/src/types/database.ts`. |
 | `npm run db:seed` | Load scenario JSON into a running DB (uses the service-role key). |
+| `npm run session:create -- --title "..."` | Create a game session and print the three URLs. |
 
 ## Where to look first
 
