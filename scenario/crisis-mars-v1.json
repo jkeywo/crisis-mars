@@ -1,0 +1,653 @@
+{
+  "$schema": "./schema.json",
+  "id": "crisis-mars-v1",
+  "name": "Crisis: Mars",
+  "version": "1.0",
+  "description": "A 12-18 player megagame about negotiation, war, trade routes, corporate interests, Martian independence, and asteroid-belt politics, set in the year 2241.",
+  "default_player_count_min": 12,
+  "default_player_count_max": 18,
+  "setting": {
+    "intro": "The year is 2241 and humanity has colonised the inner solar system with space stations and mining in the asteroid belt, and a colony and terraforming project on Mars.\nIn recent years a growing movement on Mars is pushing for independence from the United Nations of Earth and they have just gained a majority in the Martian senate\u2026\nYou will take the role of an actor on the edge of this brewing conflict. You will have limited opportunity to change its course but conflict gives you the chance to achieve your own goals.",
+    "locations": "Earth has a population of 30 billion and is still the production and political centre of human life.\nLuna has been heavily developed for almost a hundred years and many corporations based there are given their own sovereign territory.\nMars has been slowly terraformed over the last 4 decades, with humanity currently having to live underground. Still, there are roughly 20 million colonists, half of which are involved in the terraforming effort.\nDeimos and Phobos are Mars's small moons that are used as supply stations for space ships.\nCeres, Vesta and Pallas are the three biggest stations in the asteroid belt, providing vital resources to both Earth and the Martian terraforming effort.",
+    "factions_overview": "Canopy Corp: A Luna based corporation with the UN contract to terraform Mars.\nViva Mars: A radical martian freedom fighting group. They feel like they have been left behind by the martian senate.\nBelt Union: The workers of the asteroid belt, supplying goods to Earth and Mars.\nUNSS: The United Nations Security Service is a powerful and shadowy organisation that gathers and acts upon intelligence about threats to Earth.\nDeimos Rising Corp: A state owned Martian corporation that operates the station on the Martian moon of Deimos.\nFree Federation: A ragtag collection of pirates from the Belt."
+  },
+  "schedule": {
+    "prologue_seconds": 1800,
+    "epilogue_seconds": 600,
+    "turns": [
+      { "number": 1, "team_seconds": 300, "negotiation_seconds": 300, "action_seconds": 600 },
+      { "number": 2, "team_seconds": 300, "negotiation_seconds": 300, "action_seconds": 600 },
+      { "number": 3, "team_seconds": 300, "negotiation_seconds": 300, "action_seconds": 600 },
+      { "number": 4, "team_seconds": 300, "negotiation_seconds": 300, "action_seconds": 600 }
+    ]
+  },
+  "factions": [
+    {
+      "id": "canopy-corp",
+      "name": "Canopy Corp",
+      "short_name": "Canopy",
+      "colour": "#1F6FEB",
+      "icon_url": "Icons/CanopyLarge.png",
+      "icon_small_url": "Icons/CanopySmall.png",
+      "icon_colour_url": "Icons/CanopyColour.png",
+      "public_brief": "Canopy P.L.C. was initially founded to develop and deploy habitats during the colonisation of Luna. Until it won the contract to terraform Mars it was a mid-sized mega-corporation, but over the last 40 years it has grown to one of the largest non-state entities in the solar system.\nThe Martian terraforming project is now vital to the future of Canopy Corp and the political unrest is an unwelcome disruption to normal operations.",
+      "common_goals": [
+        "The UN are the only faction who can credibly afford terraforming, so they need to keep control of Mars.",
+        "Keep the terraforming project active, including the trade route from the Asteroid Belt to Mars.",
+        "Luna in general, and Canopy Corp in particular, should remain prosperous.",
+        "The Martian Senate should be controlled by corporations, or at least the Politicians."
+      ],
+      "sort_order": 1
+    },
+    {
+      "id": "unss",
+      "name": "UNSS",
+      "short_name": "UNSS",
+      "colour": "#0B3D91",
+      "icon_url": "Icons/UNSSLarge.png",
+      "icon_small_url": "Icons/UNSSSmall.png",
+      "icon_colour_url": "Icons/UNSSColour.png",
+      "public_brief": "The Unified Nations Security Service is a joint intelligence agency working for the Earth Gov to ensure stability on Earth, in the inner system and intercepting threats to the sovereignty of Earth.\nLittle is known about just how broad their mandate is, but there have been unofficial reports of paramilitary operations and infiltration of other parts of the UN.",
+      "common_goals": [
+        "Ensure Earth is never threatened or attacked.",
+        "Win the war against Mars.",
+        "Secure Earth's interests in the Asteroid Belt.",
+        "Ensure the loyalty of the corporations and traders to Earth."
+      ],
+      "sort_order": 2
+    },
+    {
+      "id": "viva-mars",
+      "name": "Viva Mars",
+      "short_name": "Viva Mars",
+      "colour": "#D6371E",
+      "icon_url": "Icons/VivaMarsLarge.png",
+      "icon_small_url": "Icons/VivaMarsSmall.png",
+      "icon_colour_url": "Icons/VivaColour.png",
+      "public_brief": "Viva Mars was there at the start of the independence movement, before it became mainstream and the politicians became involved. It started with a socialist dream, equality for all Martians as well as freedom from Earth, but the Senate wants to keep their power.\nAs much as your main aim has never been closer to being realised, the new wave of opportunistic politicians and military folk seem hell bent on turning Mars into a copy of Earth, and bending the knee to the same old corporations.",
+      "common_goals": [
+        "The Martian war for independence should be a success.",
+        "The Martian Senate should be returned to the people.",
+        "Recruit as many allies as possible.",
+        "The future of Mars relies on the terraforming project continuing."
+      ],
+      "sort_order": 3
+    },
+    {
+      "id": "deimos-rising",
+      "name": "Deimos Rising Corp",
+      "short_name": "Deimos Rising",
+      "colour": "#9A4AE0",
+      "icon_url": "Icons/DeimosLarge.png",
+      "icon_small_url": "Icons/DeimosSmall.png",
+      "icon_colour_url": "Icons/DeimosColour.png",
+      "public_brief": "Deimos was the first Martian Senate backed corporation, ratified by Earth Gov, given corporate sovereignty over the moon of Deimos and a charter to facilitate trade to and from Mars.\nThe senate has stated that, if independence is won then Deimos Rising will be taken public, which could result in a healthy payday if their shares are high.",
+      "common_goals": [
+        "Outperform the Belt Union for trading.",
+        "Keep Mars stable, with the Senate controlled by the Corps or Politicians.",
+        "Muscle in on the Terraforming project.",
+        "Keep your valuation high."
+      ],
+      "sort_order": 4
+    },
+    {
+      "id": "belt-union",
+      "name": "Belt Union",
+      "short_name": "Belt Union",
+      "colour": "#E0A526",
+      "icon_url": "Icons/BeltUnionLarge.png",
+      "icon_small_url": "Icons/BeltUnionSmall.png",
+      "icon_colour_url": "Icons/BeltUnionColour.png",
+      "public_brief": "Once mining in the asteroid belt had been proved viable a new gold rush for rare ores and materials from the belt began. The early pioneers had to lease spacecraft from the corporations that could afford to build them.\nOver time this settled down into a status quo where large mining companies would hire freelancer mining crews to perform the dangerous work.\nThe Belt Union was formed from these workers in order to counterbalance the power of the corps that employ them and operate several space stations in the asteroid belt.",
+      "common_goals": [
+        "Ceres, Vesta and Pallas should be as prosperous as possible.",
+        "Both Mars and Earth should remain in political turmoil, so you can claim more independence for the Asteroid Belt.",
+        "Keep trade flowing between the Belt and the inner planets.",
+        "Gain control of shipping in the Asteroid Belt."
+      ],
+      "sort_order": 5
+    },
+    {
+      "id": "free-federation",
+      "name": "Free Federation",
+      "short_name": "Free Fed",
+      "colour": "#2E2E2E",
+      "icon_url": "Icons/FreeFedLarge.png",
+      "icon_small_url": "Icons/FreeFedSmall.png",
+      "icon_colour_url": "Icons/FreeFedColour.png",
+      "public_brief": "Space piracy is in its infancy, as only recently has access to small space vessels become easier and trade more common. The Corsairs are a loose federation of those who are looking for wealth or freedom in space. Their founder, Dread Lizzy, was recently killed in a UN raid and now the Federation finds itself leaderless.",
+      "common_goals": [
+        "Resolve the leadership question.",
+        "Gain power and wealth for the Federation.",
+        "Be seen as a faction to be feared and respected.",
+        "Gain control of shipping in the Asteroid Belt."
+      ],
+      "sort_order": 6
+    }
+  ],
+  "roles": [
+    {
+      "code": "C1",
+      "name": "C.E.O.",
+      "faction_id": "canopy-corp",
+      "public_description": "Chief Executive Officer of Canopy Corp.",
+      "private_brief": "You are a career corporate actor, chosen from the privileged upper class of Luna.\nAll that matters in this life is achieving the personal wealth and power required to protect yourself and your loved ones.",
+      "personal_goal": "You are due a massive bonus at the end of turn 4, so all that matters is Canopy Corp's share price at that moment.",
+      "initiative_by_turn": [14, 5, 1, 14],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 1
+    },
+    {
+      "code": "C2",
+      "name": "C.T.O.",
+      "faction_id": "canopy-corp",
+      "public_description": "Chief Technology Officer of Canopy Corp.",
+      "private_brief": "You were one of the finest terraforming engineers Earth has ever produced and have been working on the Mars terraforming project since its inception.\nLong since promoted away from technical work it is still your main motivation.",
+      "personal_goal": "The terraforming project must be protected, no matter what the political and military outcome of the conflict.",
+      "initiative_by_turn": [10, 10, 11, 7],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 2
+    },
+    {
+      "code": "C3",
+      "name": "Security Chief",
+      "faction_id": "canopy-corp",
+      "public_description": "Security Chief of Canopy Corp.",
+      "private_brief": "A project as large as the Terraforming of Mars cannot be left to chance, so Earth Security arranged to have you as a mole in Canopy Corp, to ensure they continue to act in the best interests of Earth.",
+      "personal_goal": "Ensure Canopy Corp remains loyal to Earth and safe from physical threats.",
+      "initiative_by_turn": [6, 4, 16, 8],
+      "availability": [
+        { "player_count": 15, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 3
+    },
+    {
+      "code": "U1",
+      "name": "Security Secretary",
+      "faction_id": "unss",
+      "public_description": "Security Secretary of the UNSS.",
+      "private_brief": "A career civil servant, you have never been into the field but your exemplary administrative skills have put you in charge of one of the most powerful and secretive branches of Earth Gov.",
+      "personal_goal": "The numbers don't lie. In an increasingly chaotic and unpredictable moment in human history it is vital that you get the Earth Gov Congress to increase the official mandate of the UNSS.",
+      "initiative_by_turn": [3, 6, 18, 17],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 4
+    },
+    {
+      "code": "U2",
+      "name": "Head of Intelligence",
+      "faction_id": "unss",
+      "public_description": "Head of Intelligence at the UNSS.",
+      "private_brief": "You come from a background of wealth, but working in intelligence is a calling. If everyone just knew what they needed to know you believe you can help end violence and even though you have risen through the ranks this idealism has not left you.",
+      "personal_goal": "Cultivate information sources amongst the player base and head off conflict.",
+      "initiative_by_turn": [13, 16, 8, 4],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 5
+    },
+    {
+      "code": "U3",
+      "name": "Head of Tactical",
+      "faction_id": "unss",
+      "public_description": "Head of Tactical at the UNSS.",
+      "private_brief": "As a child you were orphaned in one of the first attacks by Viva Mars, and that led you to a career in the military and then later in intelligence. Humanity, off earth, is the new wild west and it needs to be tamed to avoid any further tragedies.",
+      "personal_goal": "Get revenge on Viva Mars and any groups like them.",
+      "initiative_by_turn": [16, 15, 14, 1],
+      "availability": [
+        { "player_count": 15, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 6
+    },
+    {
+      "code": "V1",
+      "name": "Hero",
+      "faction_id": "viva-mars",
+      "public_description": "The Hero of Viva Mars.",
+      "private_brief": "You were one of the first members of Viva Mars and came to the media's attention after leading a daring prison break. Since then you have been seen as the de facto leader of Viva Mars.",
+      "personal_goal": "Make sure Viva Mars survives as a cohesive and effective political entity.",
+      "initiative_by_turn": [9, 17, 17, 2],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 7
+    },
+    {
+      "code": "V2",
+      "name": "Firebrand",
+      "faction_id": "viva-mars",
+      "public_description": "The Firebrand of Viva Mars.",
+      "private_brief": "When many of Viva Mars left to go mainstream you were amongst the most disappointed. There can be no compromise with Earth. Only when they can no longer fight will Mars be free from oppression.",
+      "personal_goal": "The ends justify the means, make sure Earth loses the capacity and will to fight.",
+      "initiative_by_turn": [11, 13, 13, 3],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 8
+    },
+    {
+      "code": "V3",
+      "name": "Veteran",
+      "faction_id": "viva-mars",
+      "public_description": "The Veteran of Viva Mars.",
+      "private_brief": "An ex-soldier in the Earth Gov military on Mars, you have vital practical skills for the resistance.\nMost members of Viva Mars are ideologically committed to the cause, you stay because they were like a family when you needed them.",
+      "personal_goal": "Ensure Viva Mars' military success and that it is recognised.",
+      "initiative_by_turn": [17, 9, 6, 12],
+      "availability": [
+        { "player_count": 15, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 9
+    },
+    {
+      "code": "D1",
+      "name": "C.E.O.",
+      "faction_id": "deimos-rising",
+      "public_description": "Chief Executive Officer of Deimos Rising Corp.",
+      "private_brief": "You joined the Martian independence movement just as it was becoming institutionalised, which suited you fine and you found yourself in the right place to be placed at the head of the Deimos Rising Corporation. Once independence is secured the Senate has promised to take Deimos Rising public, and with it you can hope to become very wealthy should the valuation go well.",
+      "personal_goal": "Increase valuation in advance of an IPO.",
+      "initiative_by_turn": [2, 1, 4, 18],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 10
+    },
+    {
+      "code": "D2",
+      "name": "Station Manager",
+      "faction_id": "deimos-rising",
+      "public_description": "Station Manager of Deimos.",
+      "private_brief": "The ratification of the Deimos Rising mandate was only possible with the inclusion of some Earth loyalists, one of whom was supposed to be you. In truth you care little for politics, instead managing the station over Mars is simply a wise career choice, ripe with opportunity for wealth and advancement.",
+      "personal_goal": "Gain personal riches.",
+      "initiative_by_turn": [8, 14, 9, 6],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 11
+    },
+    {
+      "code": "D3",
+      "name": "Fleet Manager",
+      "faction_id": "deimos-rising",
+      "public_description": "Fleet Manager of Deimos Rising Corp.",
+      "private_brief": "A native Martian your early work was as a ship hand, spending most of your time in space but always being drawn back to the red planet. Now in charge of running the commercial fleet for Deimos Rising you still retain your love of mars and hope for its independence.",
+      "personal_goal": "Martian patriot with sympathies to Senate and Viva Mars.",
+      "initiative_by_turn": [18, 8, 3, 9],
+      "availability": [
+        { "player_count": 15, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 12
+    },
+    {
+      "code": "B1",
+      "name": "Ceres Boss",
+      "faction_id": "belt-union",
+      "public_description": "Boss of Ceres.",
+      "private_brief": "Born on Earth you made your career by earning respect from both corporations and the belt miners, coming to run the largest station in the Belt.",
+      "personal_goal": "Politics is all well and good, but ultimately the Belt needs commerce to thrive. Keep prosperity and security high, particularly on Ceres.",
+      "initiative_by_turn": [4, 12, 15, 11],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 13
+    },
+    {
+      "code": "B2",
+      "name": "V&P Boss",
+      "faction_id": "belt-union",
+      "public_description": "Boss of Vesta and Pallas.",
+      "private_brief": "You are a native to the Belt and have worked on everything from one-man prospecting vessels to bulk haulers.\nUnion to the core, you have temporary command of both the Vesta and Pallas stations until someone can take Pallas off your hands.",
+      "personal_goal": "Exploit the conflict for the benefit of the Belt and the Union.",
+      "initiative_by_turn": [12, 7, 12, 15],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 14
+    },
+    {
+      "code": "B3",
+      "name": "Radical",
+      "faction_id": "belt-union",
+      "public_description": "Radical of the Belt Union.",
+      "private_brief": "There is a growing number of voices within the Union that see Martian independence as a chance for the Belt to get the same.\nYou are few in number but you represent many of these workers.",
+      "personal_goal": "Work towards freeing the Belt from Earth and Luna control.",
+      "initiative_by_turn": [7, 2, 7, 13],
+      "availability": [
+        { "player_count": 15, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 15
+    },
+    {
+      "code": "F1",
+      "name": "Captain of the Corsair",
+      "faction_id": "free-federation",
+      "public_description": "Captain of the Corsair.",
+      "private_brief": "You have lived in the Belt since your parents went to space to find their fortune. After an industrial accident left you an orphan you fell in with the Free Federation and have worked your way up the ranks till you now command the Corsair. In all the conflict between Earth and Mars the Belt has been left out of the conversation, this distraction could be an opportunity to help your people (and yourself).",
+      "personal_goal": "Become leader of the Free Federation.\nSupport the rights of the Asteroid Belt.",
+      "initiative_by_turn": [1, 11, 10, 10],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 16
+    },
+    {
+      "code": "F2",
+      "name": "Captain of the Eclipse",
+      "faction_id": "free-federation",
+      "public_description": "Captain of the Eclipse.",
+      "private_brief": "A born Martian, you toyed with the politics of Viva Mars before getting a steady job in space transport. You lead a mutiny against your old captain after they tried to space one of the crew and have been on the run ever since. The Free Federation has helped arm the Eclipse and you have since gained a reputation for efficiency within the pirate organisation.",
+      "personal_goal": "Become leader of the Free Federation.\nSupport Mars in its bid for freedom.",
+      "initiative_by_turn": [5, 3, 2, 16],
+      "availability": [
+        { "player_count": 12, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 17
+    },
+    {
+      "code": "F3",
+      "name": "Captain of the Kraken",
+      "faction_id": "free-federation",
+      "public_description": "Captain of the Kraken.",
+      "private_brief": "You were not born to privilege and tried to become someone important through a life of crime. Now, you are escaping your past crimes on Earth by committing new ones in space with the same goal.",
+      "personal_goal": "Become leader of the Free Federation.\nGain personal glory and recognition.",
+      "initiative_by_turn": [15, 18, 5, 5],
+      "availability": [
+        { "player_count": 15, "is_recommended": true },
+        { "player_count": 18, "is_recommended": true }
+      ],
+      "sort_order": 18
+    }
+  ],
+  "npcs": [
+    {
+      "code": "N1",
+      "name": "Unified Nations Ambassador",
+      "default_controller": "earth_control",
+      "public_description": "The senior diplomatic representative of the Unified Nations, present in the room to broker deals on behalf of Earth.",
+      "facilitator_notes": "The UN Ambassador is the destination for the Belt Union tithe and acts as the public face of Earth Gov diplomacy. Has a sizeable resource pool (9 cards) intended to enable trades and reward loyalty. See spec section 17 for tithe defaults."
+    },
+    {
+      "code": "N2",
+      "name": "Martian Senate Speaker",
+      "default_controller": "mars_control",
+      "public_description": "The elected Speaker of the Martian Senate, present to negotiate on behalf of Mars's institutional government (distinct from Viva Mars).",
+      "facilitator_notes": "The Senate Speaker represents the official Martian government in negotiations. Has a sizeable resource pool (9 cards) for arming allies and rewarding deals. The Speaker may be the recipient of opportunities generated when Senate Control: Politicians runs 4+ ahead."
+    }
+  ],
+  "maps": [
+    {
+      "id": "earth",
+      "name": "Earth",
+      "sort_order": 1,
+      "score_tracks": [
+        { "id": "earth.war_support", "name": "War Support", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 1 },
+        { "id": "earth.earth_gov_military", "name": "Earth Gov Military", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 2 },
+        { "id": "earth.canopy_shares", "name": "Canopy Shares", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 3 },
+        { "id": "earth.luna_prosperity", "name": "Luna Prosperity", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 4 },
+        { "id": "earth.un_oversight", "name": "UN Oversight", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 5 },
+        { "id": "shared.war_progress", "name": "War Progress", "description": "Shared between Earth and Mars. Starts at 11 in Turn 2 when war is declared.", "min_value": 0, "max_value": 20, "starting_value": 0, "visible_to_players": true, "shared_with_map_ids": ["mars"], "sort_order": 6 }
+      ],
+      "locations": [
+        { "id": "earth.earth_gov_capital", "name": "Earth Gov Capital", "valid_for_actions": true, "sort_order": 1 },
+        { "id": "earth.space_port", "name": "Space Port", "valid_for_actions": true, "sort_order": 2 },
+        { "id": "earth.low_orbit", "name": "Low Orbit", "valid_for_actions": true, "sort_order": 3 },
+        { "id": "earth.upper_orbit", "name": "Upper Orbit", "valid_for_actions": true, "sort_order": 4 },
+        { "id": "earth.luna", "name": "Luna", "valid_for_actions": true, "sort_order": 5 },
+        { "id": "earth.starport_alpha", "name": "Starport Alpha", "valid_for_actions": true, "sort_order": 6 }
+      ]
+    },
+    {
+      "id": "mars",
+      "name": "Mars",
+      "sort_order": 2,
+      "score_tracks": [
+        { "id": "mars.senate_military", "name": "Senate Military", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 1 },
+        { "id": "mars.terraforming_project", "name": "Terraforming Project", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 2 },
+        { "id": "mars.deimos_rising_valuation", "name": "Deimos Rising Valuation", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 3 },
+        { "id": "mars.senate_control_politicians", "name": "Senate Control: Politicians", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 4 },
+        { "id": "mars.senate_control_people", "name": "Senate Control: People", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 5 },
+        { "id": "mars.senate_control_corporations", "name": "Senate Control: Corporations", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 6 }
+      ],
+      "locations": [
+        { "id": "mars.surface", "name": "Mars Surface", "valid_for_actions": true, "sort_order": 1 },
+        { "id": "mars.terraforming_site", "name": "Terraforming Site", "valid_for_actions": true, "sort_order": 2 },
+        { "id": "mars.senate_floor", "name": "Senate Floor", "valid_for_actions": true, "sort_order": 3 },
+        { "id": "mars.phobos", "name": "Phobos", "valid_for_actions": true, "sort_order": 4 },
+        { "id": "mars.deimos", "name": "Deimos", "valid_for_actions": true, "sort_order": 5 },
+        { "id": "mars.low_orbit", "name": "Mars Low Orbit", "valid_for_actions": true, "sort_order": 6 },
+        { "id": "mars.upper_orbit", "name": "Mars Upper Orbit", "valid_for_actions": true, "sort_order": 7 }
+      ]
+    },
+    {
+      "id": "belt",
+      "name": "Asteroid Belt",
+      "sort_order": 3,
+      "score_tracks": [
+        { "id": "belt.earth_trade_route", "name": "Earth Trade Route", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 1 },
+        { "id": "belt.mars_trade_route", "name": "Mars Trade Route", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 2 },
+        { "id": "belt.ceres_prosperity", "name": "Ceres Prosperity", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 3 },
+        { "id": "belt.vesta_pallas_prosperity", "name": "Vesta and Pallas Prosperity", "min_value": 0, "max_value": 20, "starting_value": 10, "visible_to_players": true, "sort_order": 4 },
+        { "id": "belt.shipping_un_ambassador", "name": "Shipping Control: UN Ambassador", "min_value": 0, "max_value": 20, "starting_value": 5, "visible_to_players": true, "sort_order": 5 },
+        { "id": "belt.shipping_free_federation", "name": "Shipping Control: Free Federation", "min_value": 0, "max_value": 20, "starting_value": 5, "visible_to_players": true, "sort_order": 6 },
+        { "id": "belt.shipping_belt_union", "name": "Shipping Control: Belt Union", "min_value": 0, "max_value": 20, "starting_value": 5, "visible_to_players": true, "sort_order": 7 },
+        { "id": "belt.shipping_senate_speaker", "name": "Shipping Control: Martian Senate Speaker", "min_value": 0, "max_value": 20, "starting_value": 5, "visible_to_players": true, "sort_order": 8 }
+      ],
+      "locations": [
+        { "id": "belt.ceres", "name": "Ceres", "valid_for_actions": true, "sort_order": 1 },
+        { "id": "belt.vesta", "name": "Vesta", "valid_for_actions": true, "sort_order": 2 },
+        { "id": "belt.pallas", "name": "Pallas", "valid_for_actions": true, "sort_order": 3 },
+        { "id": "belt.earth_route", "name": "Earth Route", "valid_for_actions": true, "sort_order": 4 },
+        { "id": "belt.mars_route", "name": "Mars Route", "valid_for_actions": true, "sort_order": 5 },
+        { "id": "belt.belt_union_stations", "name": "Belt Union Stations", "valid_for_actions": true, "sort_order": 6 },
+        { "id": "belt.free_federation_ships", "name": "Free Federation Ships", "valid_for_actions": true, "sort_order": 7 }
+      ]
+    }
+  ],
+  "card_templates": [
+    { "id": "action.C1", "card_type": "action", "name": "Action Card: C.E.O. (C1)", "faction_id": "canopy-corp", "owner_role_code": "C1", "tradeable": false, "reclaimable": false },
+    { "id": "action.C2", "card_type": "action", "name": "Action Card: C.T.O. (C2)", "faction_id": "canopy-corp", "owner_role_code": "C2", "tradeable": false, "reclaimable": false },
+    { "id": "action.C3", "card_type": "action", "name": "Action Card: Security Chief (C3)", "faction_id": "canopy-corp", "owner_role_code": "C3", "tradeable": false, "reclaimable": false },
+    { "id": "action.U1", "card_type": "action", "name": "Action Card: Security Secretary (U1)", "faction_id": "unss", "owner_role_code": "U1", "tradeable": false, "reclaimable": false },
+    { "id": "action.U2", "card_type": "action", "name": "Action Card: Head of Intelligence (U2)", "faction_id": "unss", "owner_role_code": "U2", "tradeable": false, "reclaimable": false },
+    { "id": "action.U3", "card_type": "action", "name": "Action Card: Head of Tactical (U3)", "faction_id": "unss", "owner_role_code": "U3", "tradeable": false, "reclaimable": false },
+    { "id": "action.V1", "card_type": "action", "name": "Action Card: Hero (V1)", "faction_id": "viva-mars", "owner_role_code": "V1", "tradeable": false, "reclaimable": false },
+    { "id": "action.V2", "card_type": "action", "name": "Action Card: Firebrand (V2)", "faction_id": "viva-mars", "owner_role_code": "V2", "tradeable": false, "reclaimable": false },
+    { "id": "action.V3", "card_type": "action", "name": "Action Card: Veteran (V3)", "faction_id": "viva-mars", "owner_role_code": "V3", "tradeable": false, "reclaimable": false },
+    { "id": "action.D1", "card_type": "action", "name": "Action Card: C.E.O. (D1)", "faction_id": "deimos-rising", "owner_role_code": "D1", "tradeable": false, "reclaimable": false },
+    { "id": "action.D2", "card_type": "action", "name": "Action Card: Station Manager (D2)", "faction_id": "deimos-rising", "owner_role_code": "D2", "tradeable": false, "reclaimable": false },
+    { "id": "action.D3", "card_type": "action", "name": "Action Card: Fleet Manager (D3)", "faction_id": "deimos-rising", "owner_role_code": "D3", "tradeable": false, "reclaimable": false },
+    { "id": "action.B1", "card_type": "action", "name": "Action Card: Ceres Boss (B1)", "faction_id": "belt-union", "owner_role_code": "B1", "tradeable": false, "reclaimable": false },
+    { "id": "action.B2", "card_type": "action", "name": "Action Card: V&P Boss (B2)", "faction_id": "belt-union", "owner_role_code": "B2", "tradeable": false, "reclaimable": false },
+    { "id": "action.B3", "card_type": "action", "name": "Action Card: Radical (B3)", "faction_id": "belt-union", "owner_role_code": "B3", "tradeable": false, "reclaimable": false },
+    { "id": "action.F1", "card_type": "action", "name": "Action Card: Captain of the Corsair (F1)", "faction_id": "free-federation", "owner_role_code": "F1", "tradeable": false, "reclaimable": false },
+    { "id": "action.F2", "card_type": "action", "name": "Action Card: Captain of the Eclipse (F2)", "faction_id": "free-federation", "owner_role_code": "F2", "tradeable": false, "reclaimable": false },
+    { "id": "action.F3", "card_type": "action", "name": "Action Card: Captain of the Kraken (F3)", "faction_id": "free-federation", "owner_role_code": "F3", "tradeable": false, "reclaimable": false },
+
+    { "id": "resource.construction_ship", "card_type": "resource", "name": "Construction Ship", "flavour_text": "Capable of building, repairing, or improving space-based infrastructure.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.corporate_security", "card_type": "resource", "name": "Corporate Security", "flavour_text": "Any sufficiently large corporation operates its own paramilitary security force.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.criminal_contacts", "card_type": "resource", "name": "Criminal Contacts", "flavour_text": "Capable of finding anything or anyone, off the books.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.enthusiastic_recruits", "card_type": "resource", "name": "Enthusiastic Recruits", "flavour_text": "There are always those willing to join a righteous cause, even amongst the enemy.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.gang_of_thugs", "card_type": "resource", "name": "Gang of Thugs", "flavour_text": "Want someone roughed up? Something vandalised? You know a guy.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.hackers", "card_type": "resource", "name": "Hackers", "flavour_text": "Everything is run by a computer, so everything is vulnerable.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.military_rd", "card_type": "resource", "name": "Military R&D", "flavour_text": "I'm sure it could have some civilian applications.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.mining_ship", "card_type": "resource", "name": "Mining Ship", "flavour_text": "A small asteroid mining ship.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.patrol_ship", "card_type": "resource", "name": "Patrol Ship", "flavour_text": "A lightly armed ship capable of scouting and limited combat engagements.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.political_contacts", "card_type": "resource", "name": "Political Contacts", "flavour_text": "Any government can be swayed with enough lobbying power.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.rabble_rousers", "card_type": "resource", "name": "Rabble Rousers", "flavour_text": "With enough charisma the common folk can be persuaded to do anything that's plausibly in their self interest.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.raiders", "card_type": "resource", "name": "Raiders", "flavour_text": "A well targeted raid can do a great deal to disrupt a military, or corporation.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.raw_materials", "card_type": "resource", "name": "Raw Materials", "flavour_text": "The Belt produces many minerals and metals for trade.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.saboteurs", "card_type": "resource", "name": "Saboteurs", "flavour_text": "Anything from controlled explosions to detailed work, some workers know how to destroy and disable instead of build.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.scientific_rd", "card_type": "resource", "name": "Scientific R&D", "flavour_text": "Major breakthroughs are happening every day.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.secret_agents", "card_type": "resource", "name": "Secret Agents", "flavour_text": "Capable of most jobs, completed with discretion.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.small_arms", "card_type": "resource", "name": "Small Arms", "flavour_text": "A cache of weapons for use in ground engagements.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.special_forces", "card_type": "resource", "name": "Special Forces", "flavour_text": "A small group of highly trained stealthy killers.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.spy_network", "card_type": "resource", "name": "Spy Network", "flavour_text": "Spies and double agents have been being put into place for years, waiting for an opportunity to serve the cause.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.stealth_ship", "card_type": "resource", "name": "Stealth Ship", "flavour_text": "Stealth ships are small, but can operate for small periods of time undetected.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.trade_goods", "card_type": "resource", "name": "Trade Goods", "flavour_text": "A mix of valuable and useful goods that could be put to all manner of uses.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.transport_ship", "card_type": "resource", "name": "Transport Ship", "flavour_text": "Get from A to B: fast, efficient and cheap - choose two.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.untraceable_cash", "card_type": "resource", "name": "Untraceable Cash", "flavour_text": "Sometimes cash speaks for itself.", "impact_bonus": 1, "tradeable": true, "reclaimable": true },
+    { "id": "resource.workers", "card_type": "resource", "name": "Workers", "flavour_text": "Skilled labour that can get a job done, are loyal to the Union and ask no questions.", "impact_bonus": 1, "tradeable": true, "reclaimable": true }
+  ],
+  "starting_resource_distribution": [
+    { "role_code": "C1", "resource_template_id": "resource.political_contacts", "count": 2 },
+    { "role_code": "C1", "resource_template_id": "resource.untraceable_cash", "count": 2 },
+    { "role_code": "C1", "resource_template_id": "resource.corporate_security", "count": 1 },
+
+    { "role_code": "C2", "resource_template_id": "resource.scientific_rd", "count": 2 },
+    { "role_code": "C2", "resource_template_id": "resource.untraceable_cash", "count": 1 },
+    { "role_code": "C2", "resource_template_id": "resource.military_rd", "count": 1 },
+    { "role_code": "C2", "resource_template_id": "resource.political_contacts", "count": 1 },
+
+    { "role_code": "C3", "resource_template_id": "resource.corporate_security", "count": 2 },
+    { "role_code": "C3", "resource_template_id": "resource.spy_network", "count": 1 },
+    { "role_code": "C3", "resource_template_id": "resource.untraceable_cash", "count": 1 },
+    { "role_code": "C3", "resource_template_id": "resource.stealth_ship", "count": 1 },
+
+    { "role_code": "U1", "resource_template_id": "resource.secret_agents", "count": 1 },
+    { "role_code": "U1", "resource_template_id": "resource.political_contacts", "count": 2 },
+    { "role_code": "U1", "resource_template_id": "resource.untraceable_cash", "count": 1 },
+    { "role_code": "U1", "resource_template_id": "resource.stealth_ship", "count": 1 },
+
+    { "role_code": "U2", "resource_template_id": "resource.spy_network", "count": 2 },
+    { "role_code": "U2", "resource_template_id": "resource.stealth_ship", "count": 1 },
+    { "role_code": "U2", "resource_template_id": "resource.secret_agents", "count": 1 },
+    { "role_code": "U2", "resource_template_id": "resource.special_forces", "count": 1 },
+
+    { "role_code": "U3", "resource_template_id": "resource.special_forces", "count": 2 },
+    { "role_code": "U3", "resource_template_id": "resource.patrol_ship", "count": 1 },
+    { "role_code": "U3", "resource_template_id": "resource.stealth_ship", "count": 1 },
+    { "role_code": "U3", "resource_template_id": "resource.secret_agents", "count": 1 },
+
+    { "role_code": "V1", "resource_template_id": "resource.rabble_rousers", "count": 1 },
+    { "role_code": "V1", "resource_template_id": "resource.enthusiastic_recruits", "count": 2 },
+    { "role_code": "V1", "resource_template_id": "resource.raiders", "count": 1 },
+    { "role_code": "V1", "resource_template_id": "resource.political_contacts", "count": 1 },
+
+    { "role_code": "V2", "resource_template_id": "resource.rabble_rousers", "count": 2 },
+    { "role_code": "V2", "resource_template_id": "resource.enthusiastic_recruits", "count": 1 },
+    { "role_code": "V2", "resource_template_id": "resource.raiders", "count": 1 },
+    { "role_code": "V2", "resource_template_id": "resource.saboteurs", "count": 1 },
+
+    { "role_code": "V3", "resource_template_id": "resource.raiders", "count": 3 },
+    { "role_code": "V3", "resource_template_id": "resource.small_arms", "count": 1 },
+    { "role_code": "V3", "resource_template_id": "resource.enthusiastic_recruits", "count": 1 },
+
+    { "role_code": "D1", "resource_template_id": "resource.untraceable_cash", "count": 2 },
+    { "role_code": "D1", "resource_template_id": "resource.construction_ship", "count": 1 },
+    { "role_code": "D1", "resource_template_id": "resource.trade_goods", "count": 1 },
+    { "role_code": "D1", "resource_template_id": "resource.political_contacts", "count": 1 },
+
+    { "role_code": "D2", "resource_template_id": "resource.construction_ship", "count": 1 },
+    { "role_code": "D2", "resource_template_id": "resource.patrol_ship", "count": 1 },
+    { "role_code": "D2", "resource_template_id": "resource.trade_goods", "count": 2 },
+    { "role_code": "D2", "resource_template_id": "resource.transport_ship", "count": 1 },
+
+    { "role_code": "D3", "resource_template_id": "resource.transport_ship", "count": 2 },
+    { "role_code": "D3", "resource_template_id": "resource.trade_goods", "count": 1 },
+    { "role_code": "D3", "resource_template_id": "resource.small_arms", "count": 1 },
+    { "role_code": "D3", "resource_template_id": "resource.patrol_ship", "count": 1 },
+
+    { "role_code": "B1", "resource_template_id": "resource.raw_materials", "count": 2 },
+    { "role_code": "B1", "resource_template_id": "resource.transport_ship", "count": 1 },
+    { "role_code": "B1", "resource_template_id": "resource.workers", "count": 1 },
+    { "role_code": "B1", "resource_template_id": "resource.mining_ship", "count": 1 },
+
+    { "role_code": "B2", "resource_template_id": "resource.transport_ship", "count": 2 },
+    { "role_code": "B2", "resource_template_id": "resource.mining_ship", "count": 1 },
+    { "role_code": "B2", "resource_template_id": "resource.raw_materials", "count": 1 },
+    { "role_code": "B2", "resource_template_id": "resource.workers", "count": 1 },
+
+    { "role_code": "B3", "resource_template_id": "resource.mining_ship", "count": 1 },
+    { "role_code": "B3", "resource_template_id": "resource.workers", "count": 2 },
+    { "role_code": "B3", "resource_template_id": "resource.saboteurs", "count": 1 },
+    { "role_code": "B3", "resource_template_id": "resource.patrol_ship", "count": 1 },
+
+    { "role_code": "F1", "resource_template_id": "resource.patrol_ship", "count": 1 },
+    { "role_code": "F1", "resource_template_id": "resource.mining_ship", "count": 1 },
+    { "role_code": "F1", "resource_template_id": "resource.gang_of_thugs", "count": 1 },
+    { "role_code": "F1", "resource_template_id": "resource.criminal_contacts", "count": 2 },
+
+    { "role_code": "F2", "resource_template_id": "resource.patrol_ship", "count": 1 },
+    { "role_code": "F2", "resource_template_id": "resource.gang_of_thugs", "count": 2 },
+    { "role_code": "F2", "resource_template_id": "resource.criminal_contacts", "count": 1 },
+    { "role_code": "F2", "resource_template_id": "resource.raiders", "count": 1 },
+
+    { "role_code": "F3", "resource_template_id": "resource.patrol_ship", "count": 2 },
+    { "role_code": "F3", "resource_template_id": "resource.gang_of_thugs", "count": 1 },
+    { "role_code": "F3", "resource_template_id": "resource.criminal_contacts", "count": 1 },
+    { "role_code": "F3", "resource_template_id": "resource.raiders", "count": 1 },
+
+    { "role_code": "N1", "resource_template_id": "resource.construction_ship", "count": 1 },
+    { "role_code": "N1", "resource_template_id": "resource.patrol_ship", "count": 2 },
+    { "role_code": "N1", "resource_template_id": "resource.political_contacts", "count": 2 },
+    { "role_code": "N1", "resource_template_id": "resource.trade_goods", "count": 1 },
+    { "role_code": "N1", "resource_template_id": "resource.small_arms", "count": 1 },
+    { "role_code": "N1", "resource_template_id": "resource.raw_materials", "count": 1 },
+    { "role_code": "N1", "resource_template_id": "resource.special_forces", "count": 1 },
+
+    { "role_code": "N2", "resource_template_id": "resource.political_contacts", "count": 2 },
+    { "role_code": "N2", "resource_template_id": "resource.patrol_ship", "count": 2 },
+    { "role_code": "N2", "resource_template_id": "resource.construction_ship", "count": 1 },
+    { "role_code": "N2", "resource_template_id": "resource.trade_goods", "count": 1 },
+    { "role_code": "N2", "resource_template_id": "resource.small_arms", "count": 1 },
+    { "role_code": "N2", "resource_template_id": "resource.raw_materials", "count": 1 },
+    { "role_code": "N2", "resource_template_id": "resource.special_forces", "count": 1 }
+  ],
+  "war_correspondence": [
+    {
+      "turn": 1,
+      "title": "Martian Independence and Earth's Response",
+      "public_text": "The Martian Senate has formally declared independence from the Unified Nations of Earth. Earth Gov denounces the declaration as illegal and an act of treason.",
+      "facilitator_notes": "Read at the start of Turn 1 Team Phase. Establishes the precipitating event. No automatic mechanical effect.",
+      "suggested_effects": []
+    },
+    {
+      "turn": 2,
+      "title": "UN Congress Declares War on Mars",
+      "public_text": "The UN Congress has voted to declare war on the secessionist Martian government. Earth Gov is mobilising military assets and revoking UN Shipping privileges in the Asteroid Belt.",
+      "facilitator_notes": "Read at the start of Turn 2 Team Phase. Suggested mechanical effects below; facilitator may edit before applying. War Progress should begin at 11 on the Mars map after applying these.",
+      "suggested_effects": [
+        { "description": "Add +6 to Earth Gov Military", "score_track_id": "earth.earth_gov_military", "delta": 6 },
+        { "description": "Apply -4 to UN Shipping Control at the Asteroid Belt", "score_track_id": "belt.shipping_un_ambassador", "delta": -4 },
+        { "description": "Start War Progress at 11", "score_track_id": "shared.war_progress", "delta": 11 }
+      ]
+    },
+    {
+      "turn": 3,
+      "title": "Secret Fleet Revealed at Phobos",
+      "public_text": "The Martian Senate has revealed long-hidden fleet construction at Phobos. The military balance has shifted overnight.",
+      "facilitator_notes": "Read at the start of Turn 3 Team Phase. Facilitator may delay or cancel this if the game balance requires.",
+      "suggested_effects": [
+        { "description": "Add +5 to Senate Military", "score_track_id": "mars.senate_military", "delta": 5 }
+      ]
+    },
+    {
+      "turn": 4,
+      "title": "The Final Push",
+      "public_text": "The war enters its decisive phase. The UN and the Martian Senate publicly stake their positions, and the room knows this is the last chance to change the outcome.",
+      "facilitator_notes": "Read at the start of Turn 4 Team Phase. Do not mechanically meddle in the war this turn. Announce how the UN and Senate are publicly reacting and remind players this is the final turn.",
+      "suggested_effects": []
+    }
+  ]
+}
