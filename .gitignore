@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Private
+game_files/
+
+# Build outputs
+build/
+dist/
+.svelte-kit/
+.vercel/
+.netlify/
+.cloudflare/
+.wrangler/
+
+# Generated (the placeholder is committed; `npm run db:types` regenerates it
+# from a live Supabase instance. Keeping the file tracked means a fresh clone
+# typechecks without first running supabase locally.)
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+
+# Test coverage
+coverage/
+*.lcov
+
+# Cache
+.eslintcache
+.cache/

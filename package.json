@@ -1,0 +1,37 @@
+{
+  "name": "crisis-mars",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Free-hosted web runner for the Crisis: Mars megagame.",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @crisis-mars/web",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write \"**/*.{ts,js,svelte,json,md,sql}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,js,svelte,json,md,sql}\" --ignore-path .gitignore",
+    "scenario:validate": "node scripts/validate-scenario.mjs",
+    "icons:generate": "node scripts/generate-icons.mjs",
+    "db:reset": "supabase db reset",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:types": "supabase gen types typescript --local > packages/shared/src/types/database.ts",
+    "db:seed": "node scripts/seed-from-scenario.mjs"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "dotenv": "^16.4.5",
+    "prettier": "^3.3.3",
+    "prettier-plugin-svelte": "^3.2.6",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+# Default to LF line endings in the repo; let git convert per platform on checkout.
+* text=auto eol=lf
+
+# Binary types that must never be touched.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.xlsx binary
+*.xls binary
+*.zip binary
+*.gz binary
+
+# Lock files: keep as-is, no diff.
+package-lock.json -diff
