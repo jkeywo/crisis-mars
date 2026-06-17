@@ -232,6 +232,19 @@ create table game_session (
 
 create index game_session_status_idx on game_session (status, updated_at desc);
 
+-- Token hash columns must be unique. A collision is astronomically unlikely
+-- (192-bit tokens hashed with SHA-256) but the `facilitator_session_summary`
+-- and join/observer lookup RPCs do `select ... where <hash_col> = <hash>` and
+-- would silently pick one of two rows if a collision ever happened. The
+-- partial index on observer_code_hash allows the column to be NULL.
+create unique index game_session_join_code_uniq
+  on game_session (join_code_hash);
+create unique index game_session_facilitator_code_uniq
+  on game_session (facilitator_code_hash);
+create unique index game_session_observer_code_uniq
+  on game_session (observer_code_hash)
+  where observer_code_hash is not null;
+
 create table participant (
   id uuid primary key default gen_random_uuid(),
   game_session_id uuid not null references game_session(id) on delete cascade,
