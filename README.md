@@ -110,6 +110,7 @@ script to create a new session.
 | `npm run db:types` | Regenerate `packages/shared/src/types/database.ts`. |
 | `npm run db:seed` | Load scenario JSON into a running DB (uses the service-role key). |
 | `npm run session:create -- --title "..."` | Create a game session and print the three URLs. |
+| `npm run badges:generate -- --session <id> --join-token <token>` | Generate printable role badge HTML after creating a session. |
 
 ## Where to look first
 
