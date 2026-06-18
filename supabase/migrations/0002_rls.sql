@@ -1,17 +1,18 @@
 -- 0002_rls.sql
 -- Row-Level Security policies enforcing spec section 22.
 --
--- JWT claims expected (set by the auth flow when minting anonymous tokens):
---   sub                 (string)  Supabase user id (auto)
---   role                (string)  Supabase database role, 'authenticated' or 'anon'
---   game_session_id     (uuid)    Session this token belongs to
---   participant_id      (uuid)    Participant row this token is bound to
---   permission_level    (text)    'player' | 'facilitator' | 'observer'
+-- Step 6 note: The JWT claim helper functions defined here (jwt_session_id,
+-- jwt_participant_id, jwt_permission_level, is_facilitator, is_observer,
+-- is_in_session) are REPLACED by migration 0005_claim_rls.sql which rewrites
+-- them to resolve identity via the participant_session table using auth.uid()
+-- rather than custom JWT claims. After 0005 is applied, the function bodies
+-- from 0002 are no longer in effect. The policies themselves remain unchanged.
 --
--- The seed script and any server-side function use the service role, which bypasses
--- RLS by design.
+-- Original JWT claims model (now superseded):
+--   game_session_id, participant_id, permission_level were expected as custom
+--   claims in the JWT. Supabase free tier does not support auth hooks to inject
+--   custom claims. The 0005 migration adopts Option D instead.
 --
--- Helper functions read claims with auth.jwt() and cast safely.
 
 create or replace function public.jwt_session_id() returns uuid
   language sql stable as $$
