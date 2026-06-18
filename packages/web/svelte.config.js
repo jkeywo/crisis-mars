@@ -4,6 +4,11 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   preprocess: vitePreprocess(),
+  compilerOptions: {
+    // Opt all components into Svelte 5 runes mode. Runes ($state, $derived, etc.)
+    // are the primary state primitive; legacy reactive declarations are not used.
+    runes: true,
+  },
   kit: {
     adapter: adapter({
       pages: 'build',

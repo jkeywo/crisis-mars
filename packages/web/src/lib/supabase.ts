@@ -1,9 +1,10 @@
 // Lazy Supabase client. Returns null when env vars are missing so the UI can render
 // a clear "not configured" message instead of crashing.
 //
-// The anon key is safe to ship in client builds because Row-Level Security in
-// supabase/migrations/0002_rls.sql gates every table access on the participant_id
-// claim inside the user's JWT, which is issued only after a valid join/role claim.
+// RLS model (step 6): custom JWT claims are NOT used. Instead, the anonymous
+// user's `auth.uid()` is bound to a `participant_session` row at claim time,
+// and RLS helper functions resolve identity via that table. This works on the
+// free Supabase tier without Edge Functions or auth hooks.
 //
 // We use $env/dynamic/public so missing env vars at build time degrade gracefully
 // to runtime checks instead of breaking the typecheck/build.
@@ -39,4 +40,25 @@ export function getSupabase(): SupabaseClient<Database> | null {
 
 export function isSupabaseConfigured(): boolean {
   return readEnv() !== null;
+}
+
+/**
+ * Ensure the current browser session has an anonymous Supabase auth session.
+ * If one already exists (localStorage), this is a no-op.
+ * Returns the authenticated SupabaseClient or null if unconfigured.
+ *
+ * NOTE: If the player clears localStorage, their anon session is lost and they
+ * must re-scan their role badge. The re-scan triggers check_my_session → if the
+ * role was previously claimed by the same anon UID the flow is already gone,
+ * so the player gets the restore_role path. This is expected behaviour for a
+ * physical game where the badge IS the identity credential.
+ */
+export async function ensureAnonSession(): Promise<SupabaseClient<Database> | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = await sb.auth.getSession();
+  if (!data.session) {
+    await sb.auth.signInAnonymously();
+  }
+  return sb;
 }
