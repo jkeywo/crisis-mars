@@ -53,6 +53,8 @@ export interface FacilitatorSummaryRoleBadge {
   claimed_by: string | null;
   /** Null until the player claims the role (step 6). */
   claimed_at: string | null;
+  /** Added in step 6. Number of devices currently accessing this role. */
+  active_device_count: number;
 }
 
 export interface FacilitatorSummary {
@@ -73,4 +75,52 @@ export interface FacilitatorSummary {
    * because sessions created before migration 0004 was applied will return
    * undefined for this column until `db:reset` is re-run. */
   role_badges?: FacilitatorSummaryRoleBadge[];
+}
+
+// =============================================================================
+// Step 6 - role claim / rejoin RPCs
+// =============================================================================
+
+/** Returned by preview_role_claim (callable by anon, no private data). */
+export interface PreviewRoleClaimResult {
+  game_session_id: string;
+  role_id: string;
+  role_code: string;
+  role_name: string;
+  faction_id: string;
+  faction_name: string;
+  faction_colour: string;
+  public_description: string;
+  is_claimed: boolean;
+  is_locked: boolean;
+  token_status: string;
+  /** Set when is_claimed=true; the name of the player who claimed it. */
+  claimed_by_name: string | null;
+}
+
+/** Returned by check_my_session (callable by authenticated). */
+export interface CheckMySessionResult {
+  already_mine: boolean;
+  participant_id: string | null;
+  game_session_id: string | null;
+  role_id: string | null;
+  role_code: string | null;
+  role_name: string | null;
+  faction_id: string | null;
+  faction_name: string | null;
+  faction_colour: string | null;
+}
+
+/** Returned by claim_role and restore_role (authenticated). */
+export interface ClaimRoleResult {
+  participant_id: string;
+  game_session_id: string;
+  role_id: string;
+  faction_id: string;
+  role_code: string;
+  role_name: string;
+  faction_name: string;
+  permission_level: string;
+  display_name?: string;
+  active_device_count?: number;
 }
