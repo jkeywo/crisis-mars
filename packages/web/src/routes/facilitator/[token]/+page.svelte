@@ -174,6 +174,11 @@
               <td>
                 {#if rb.claimed_at}
                   <span class="claimed-name">{rb.claimed_by ?? 'unknown'}</span>
+                  {#if (rb.active_device_count ?? 0) > 1}
+                    <span class="pill-sm pill-multi" title="{rb.active_device_count} devices">
+                      {rb.active_device_count}📱
+                    </span>
+                  {/if}
                 {:else}
                   <span class="unclaimed">&mdash;</span>
                 {/if}
@@ -447,6 +452,7 @@
   }
   .pill-ok { background: #1a3c26; color: #4ade80; }
   .pill-warn { background: #3a2e1a; color: #ffb86b; }
+  .pill-multi { background: #3a2e1a; color: #ffb86b; margin-left: 0.25rem; }
   .claimed-name { color: #c2cdd6; }
   .unclaimed { color: #4a5568; }
 
