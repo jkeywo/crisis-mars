@@ -1,6 +1,7 @@
 // API response shapes for SECURITY DEFINER RPCs exposed via PostgREST.
 // Hand-typed projections; these mirror the `returns table (...)` of the
-// matching function in supabase/migrations/0003_functions.sql. Keep in sync.
+// matching functions in supabase/migrations/0003_functions.sql and
+// 0004_badges.sql. Keep in sync when SQL is modified.
 
 import type { PhaseKind } from '../constants/phases';
 import type { NpcController } from './scenario';
@@ -34,6 +35,26 @@ export interface FacilitatorSummaryScoreValue {
   map_sort_order: number;
 }
 
+// =============================================================================
+// Step 5 - role badge status in facilitator_session_summary
+// =============================================================================
+
+/** One row per role in the session's scenario. token_hash is never included. */
+export interface FacilitatorSummaryRoleBadge {
+  role_id: string;
+  role_code: string;
+  role_name: string;
+  faction_id: string;
+  faction_name: string;
+  sort_order: number;
+  /** True when an active role_access_token row exists for this (session, role). */
+  badge_generated: boolean;
+  /** Null until the player claims the role (step 6). */
+  claimed_by: string | null;
+  /** Null until the player claims the role (step 6). */
+  claimed_at: string | null;
+}
+
 export interface FacilitatorSummary {
   game_session_id: string;
   scenario_id: string;
@@ -48,4 +69,8 @@ export interface FacilitatorSummary {
   created_at: string;
   npcs: FacilitatorSummaryNpc[];
   score_values: FacilitatorSummaryScoreValue[];
+  /** Added in step 5. Badge generation and claim status per role. Optional
+   * because sessions created before migration 0004 was applied will return
+   * undefined for this column until `db:reset` is re-run. */
+  role_badges?: FacilitatorSummaryRoleBadge[];
 }
