@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import { loadFacilitatorSession, groupScoresByMap, type MapScoreGroup } from '$lib/facilitator';
   import { PHASE_LABELS, type PhaseKind } from '$shared/constants/phases';
-  import type { FacilitatorSummary } from '$shared/types/api';
+  import type { FacilitatorSummary, FacilitatorSummaryRoleBadge } from '$shared/types/api';
 
   let state = $state<
     | { kind: 'loading' }
@@ -140,6 +140,67 @@
   </section>
 
   <section class="block">
+    <h2>Role badges ({s.role_badges?.length ?? 0} roles)</h2>
+    {#if s.role_badges && s.role_badges.length > 0}
+      {@const generated = s.role_badges.filter((r: FacilitatorSummaryRoleBadge) => r.badge_generated).length}
+      {@const claimed = s.role_badges.filter((r: FacilitatorSummaryRoleBadge) => r.claimed_at !== null).length}
+      <div class="badge-summary">
+        <span class="badge-count {generated > 0 ? 'ok' : 'warn'}">{generated}/{s.role_badges.length} badges generated</span>
+        <span class="badge-count">{claimed}/{s.role_badges.length} claimed</span>
+      </div>
+      <table class="score-table roles-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Role</th>
+            <th>Faction</th>
+            <th>Badge</th>
+            <th>Claimed by</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each s.role_badges as rb (rb.role_id)}
+            <tr class={rb.claimed_at ? 'row-claimed' : ''}>
+              <td><code>{rb.role_code}</code></td>
+              <td>{rb.role_name}</td>
+              <td><span class="faction-label">{rb.faction_name}</span></td>
+              <td>
+                {#if rb.badge_generated}
+                  <span class="pill-sm pill-ok">generated</span>
+                {:else}
+                  <span class="pill-sm pill-warn">none</span>
+                {/if}
+              </td>
+              <td>
+                {#if rb.claimed_at}
+                  <span class="claimed-name">{rb.claimed_by ?? 'unknown'}</span>
+                {:else}
+                  <span class="unclaimed">&mdash;</span>
+                {/if}
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+      {#if generated === 0}
+        <p class="hint">
+          Run <code>npm run badges:generate -- --session {s.game_session_id} --join-token &lt;joinToken&gt;</code>
+          to mint QR tokens and generate printable badge HTML.
+        </p>
+      {:else}
+        <p class="hint">
+          To reprint or regenerate, re-run <code>badges:generate</code>. Old QR codes will be rotated and become invalid.
+        </p>
+      {/if}
+    {:else}
+      <p class="hint">
+        Run <code>npm run badges:generate -- --session {s.game_session_id} --join-token &lt;joinToken&gt;</code>
+        to generate printable role badges.
+      </p>
+    {/if}
+  </section>
+
+  <section class="block">
     <h2>Map scores ({s.score_values.length} tracks)</h2>
     <div class="maps">
       {#each state.groups as group (group.map_id)}
@@ -174,7 +235,7 @@
 
   <footer class="dash-footer">
     <p>
-      Foundations build. Casting (step 8), timers (step 9), maps (step 10), score editing
+      Casting (step 8), timers (step 9), maps (step 10), score editing
       (step 11), action cards (step 12+) and the resource ledger (step 15+) are not yet wired up.
     </p>
   </footer>
@@ -356,6 +417,38 @@
     font-size: 0.8em;
     margin-left: 0.25rem;
   }
+
+  /* Role badges section */
+  .badge-summary {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .badge-count {
+    font-size: 0.85rem;
+    color: #c2cdd6;
+  }
+  .badge-count.ok { color: #2ea043; }
+  .badge-count.warn { color: #ffb86b; }
+  .roles-table { font-size: 0.85rem; }
+  .row-claimed td { opacity: 0.65; }
+  .faction-label {
+    font-size: 0.75rem;
+    color: #95a3b1;
+  }
+  .pill-sm {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .pill-ok { background: #1a3c26; color: #4ade80; }
+  .pill-warn { background: #3a2e1a; color: #ffb86b; }
+  .claimed-name { color: #c2cdd6; }
+  .unclaimed { color: #4a5568; }
 
   .dash-footer {
     margin-top: 2rem;
